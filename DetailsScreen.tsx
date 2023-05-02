@@ -1,5 +1,6 @@
 import {
   Alert,
+  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -18,8 +19,10 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
   const colors = useTheme().colors;
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [showError, setShowError] = useState(false);
+
   const onPressHandler = () => {
-    if (name.length < 1) {
+    if (name.length < 3) {
       Alert.alert(
         'Error',
         'Name should be longer than of 1 characters',
@@ -31,6 +34,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
       );
     }
     if (name.length > 1 && name.length < 5) {
+      /**/
       ToastAndroid.showWithGravityAndOffset(
         'Name should be longer than of 3 characters',
         ToastAndroid.LONG,
@@ -38,6 +42,8 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         1,
         2
       );
+      /**/
+      setShowError(true);
     }
     setSubmitted(!submitted);
   };
@@ -52,6 +58,35 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         backgroundColor: colors.background
       }}
     >
+      <Modal
+        visible={showError}
+        transparent={true}
+        onRequestClose={() => setShowError(false)}
+        animationType={'slide'}
+        hardwareAccelerated={true}
+      >
+        <View style={styles.topView}>
+          <View style={styles.errorModal}>
+            <View style={styles.modalIcon}>
+              <Text style={[{ color: colors.text }]}>/!\</Text>
+            </View>
+            <View style={styles.modalText}>
+              <Text style={[{ color: colors.text }, styles.text]}>
+                Name should be least 5 characters
+              </Text>
+            </View>
+            <Pressable
+              style={({ pressed }) => [
+                styles.modalControls,
+                { backgroundColor: pressed ? '#90fc5bff' : '#4ea822' }
+              ]}
+              onPress={() => setShowError(false)}
+            >
+              <Text style={[{ color: colors.text }, styles.text]}>FIX</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <Text style={{ color: colors.text }}>
         Details Screen has parameter `name` {route.params.name}
       </Text>
@@ -121,7 +156,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
           ]}
         >
           <Text style={[{ color: colors.text }, styles.text]}>
-            {submitted ? 'Clear' : 'Submit'}
+            {submitted ? 'Clear' : 'Submit P'}
           </Text>
         </Pressable>
 
@@ -161,6 +196,38 @@ const styles = StyleSheet.create({
     width: 150,
     height: 50,
     alignItems: 'center'
+  },
+  errorModal: {
+    height: 55,
+    borderWidth: 1,
+    borderColor: '#000',
+    flexDirection: 'row'
+  },
+  topView: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    backgroundColor: '#00000099'
+  },
+  modalIcon: {
+    width: 36,
+    backgroundColor: '#f99',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalText: {
+    flex: 1,
+    backgroundColor: '#ff4156',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalControls: {
+    flex: 0.2,
+    // backgroundColor: '#36910b',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderLeftWidth: 1,
+    borderColor: '#000'
   }
 });
 
