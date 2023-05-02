@@ -1,5 +1,6 @@
 import {
   Alert,
+  Animated, ImageBackground,
   Modal,
   Pressable,
   StyleSheet,
@@ -14,6 +15,7 @@ import {
 import React, { useState } from 'react';
 import { Button } from 'react-native-paper';
 import { useTheme } from '@react-navigation/native';
+import Image = Animated.Image;
 
 const DetailsScreen = ({ navigation, route }): JSX.Element => {
   const colors = useTheme().colors;
@@ -68,10 +70,14 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         <View style={styles.topView}>
           <View style={styles.errorModal}>
             <View style={styles.modalIcon}>
-              <Text style={[{ color: colors.text }]}>/!\</Text>
+              <Image
+                style={styles.imageIcon36}
+                source={require('./assets/warning_shield.png')}
+                resizeMode={'center'}
+              />
             </View>
             <View style={styles.modalText}>
-              <Text style={[{ color: colors.text }, styles.text]}>
+              <Text style={[{ color: colors.text }]}>
                 Name should be least 5 characters
               </Text>
             </View>
@@ -90,23 +96,47 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
       <Text style={{ color: colors.text }}>
         Details Screen has parameter `name` {route.params.name}
       </Text>
-      <View
+      <ImageBackground
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#2ea9a9'
+          backgroundColor: '#2ea9a9',
         }}
+        source={require('./assets/bg.jpg')}
       >
+        {submitted ? (
+          <View style={[{ alignItems: 'center', justifyContent: 'center' }]}>
+            <Image
+              style={styles.imageBig}
+              source={require('./assets/shield.png')}
+              resizeMode={'stretch'}
+            />
+            <Text style={{ color: colors.text }}>
+              You are registered: {name}
+            </Text>
+          </View>
+        ) : (
+          <Image
+            style={styles.imageBig}
+            source={require('./assets/warning_shield.png')}
+            resizeMode={'stretch'}
+          />
+        )}
+
         <Text style={{ color: colors.text }}>Please type your name:</Text>
         <TextInput
-          style={styles.input}
+          style={[
+            { backgroundColor: colors.background, color: colors.text },
+            styles.input
+          ]}
           placeholder={'e.g. Nicolas'}
           onChangeText={(value) => setName(value)}
           keyboardType={'name-phone-pad'}
           maxLength={25}
           editable={true}
           secureTextEntry={false}
+          placeholderTextColor={colors.text}
         />
 
         <Button
@@ -159,13 +189,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
             {submitted ? 'Clear' : 'Submit P'}
           </Text>
         </Pressable>
-
-        {submitted ? (
-          <Text style={{ color: colors.text, margin: 10 }}>
-            You are registered: {name}
-          </Text>
-        ) : null}
-      </View>
+      </ImageBackground>
 
       <Button
         mode="contained"
@@ -183,7 +207,6 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   input: {
-    backgroundColor: '#fff',
     borderWidth: 1,
     width: 200,
     borderColor: '#555',
@@ -210,8 +233,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#00000099'
   },
   modalIcon: {
-    width: 36,
-    backgroundColor: '#f99',
+    width: 42,
+    backgroundColor: '#ff4156',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -228,6 +251,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderLeftWidth: 1,
     borderColor: '#000'
+  },
+  imageBig: {
+    height: 128,
+    width: 128,
+    margin: 10
+  },
+  imageIcon36: {
+    width: 36
   }
 });
 
