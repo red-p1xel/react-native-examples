@@ -1,8 +1,10 @@
 import {
+  Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -17,6 +19,26 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const onPressHandler = () => {
+    if (name.length < 1) {
+      Alert.alert(
+        'Error',
+        'Name should be longer than of 1 characters',
+        [
+          { text: 'OK', onPress: () => console.warn('OK pressed') },
+          { text: 'Cancel', onPress: () => console.warn('Cancellation') }
+        ],
+        { cancelable: true, onDismiss: () => console.warn('Alert dismissed') }
+      );
+    }
+    if (name.length > 1 && name.length < 5) {
+      ToastAndroid.showWithGravityAndOffset(
+        'Name should be longer than of 3 characters',
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+        1,
+        2
+      );
+    }
     setSubmitted(!submitted);
   };
 
