@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Text, useColorScheme, View } from 'react-native';
 import {
-  NavigationContainer,
-  DarkTheme,
   DefaultTheme,
-  useTheme
+  DarkTheme,
+  useTheme,
+  NavigationContainer
 } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
