@@ -1,11 +1,10 @@
 import {
-  Animated,
-  RefreshControl,
-  ScrollView,
-  SectionList,
-  StyleSheet,
   Text,
-  View
+  View,
+  Animated,
+  StyleSheet,
+  SectionList,
+  RefreshControl
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import React, { useState } from 'react';
@@ -56,7 +55,7 @@ const HomeScreen = ({ navigation }): JSX.Element => {
         flexDirection: 'column',
         alignItems: 'stretch',
         justifyContent: 'space-between',
-        backgroundColor: colors.background
+        backgroundColor: '#2ea9a9'
       }}
     >
       {/*<Text style={{ color: colors.text }}>Home Screen Text</Text>*/}
@@ -87,30 +86,6 @@ const HomeScreen = ({ navigation }): JSX.Element => {
         />
       </View>
       <View style={styles.view2}>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={Refreshing}
-              onRefresh={() => {
-                setRefreshing(true);
-                setItems([...Items, { key: 33, item: 'NEW ITEM #33' }]);
-                setRefreshing(false);
-              }}
-              colors={['#63c400']}
-            />
-          }
-          showsVerticalScrollIndicator={false}
-        >
-          {Items.map((object) => {
-            return (
-              <View style={styles.item} key={object.key}>
-                <Text style={{ margin: 10 }}>{object.item}</Text>
-              </View>
-            );
-          })}
-        </ScrollView>
-      </View>
-      <View style={styles.view3}>
         <SectionList
           keyExtractor={(item, index) => index.toString()}
           sections={DataLI}
@@ -145,13 +120,6 @@ const styles = StyleSheet.create({
   },
   view2: {
     flex: 0.5,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    backgroundColor: '#63c400'
-  },
-  view3: {
-    flex: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#0e38cb'
@@ -163,4 +131,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#4aa2c5'
   }
 });
+
 export default HomeScreen;

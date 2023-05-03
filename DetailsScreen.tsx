@@ -1,12 +1,12 @@
 import {
+  Text,
+  View,
+  TextInput,
   Animated,
-  ImageBackground,
   Modal,
+  ImageBackground,
   Pressable,
   StyleSheet,
-  Text,
-  TextInput,
-  View
 } from 'react-native';
 import React, { useState } from 'react';
 import { Button } from 'react-native-paper';
@@ -89,7 +89,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#2ea9a9'
+          backgroundColor: '#2ea9a9',
         }}
         source={require('./assets/bg.jpg')}
       >
@@ -174,8 +174,8 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
 
 const styles = StyleSheet.create({
   text: {
-    margin: 15,
-    fontSize: 15
+    margin: 12,
+    fontSize: 12
   },
   input: {
     borderWidth: 1,
