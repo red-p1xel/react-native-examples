@@ -2,13 +2,13 @@ import {
   Image,
   ImageSourcePropType,
   Modal,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import React from 'react';
+import AppButton from './ButtonComponent';
 
 interface ErrorModalProps {
   icon: ImageSourcePropType;
@@ -48,18 +48,14 @@ export default function ErrorModal({
             <View style={styles.modalText}>
               <Text style={[customStyles]}>{text}</Text>
             </View>
-            {/* @TODO: Use `AppButton` component. Look at improve component */}
-            <Pressable
-              style={({ pressed }) => [
-                styles.modalControls,
-                {
-                  backgroundColor: pressed ? '#90fc5bff' : '#4ea822',
-                },
-              ]}
-              onPress={() => onShow(false)}
-            >
-              <Text style={[customStyles, styles.text]}>{buttonCaption}</Text>
-            </Pressable>
+            <AppButton
+              title={buttonCaption}
+              onSubmitAction={() => onShow(false)}
+              customStyles={{
+                styles: styles.modalControls,
+                modalButton: { normal: '#4ea822', highlighted: '#90fc5bff' },
+              }}
+            />
           </View>
         </View>
       </SafeAreaView>
