@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { Text, useColorScheme, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {
   DefaultTheme,
   DarkTheme,
   useTheme,
-  NavigationContainer
+  NavigationContainer,
 } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
@@ -19,7 +25,7 @@ function App(): JSX.Element {
 
   const data = {
     customTextColor: 'green',
-    customScreenText: 'This is text which shown on test screen'
+    customScreenText: 'This is text which shown on test screen',
   };
 
   return (
@@ -53,25 +59,36 @@ const TestScreen = ({ extraData }) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colors.background
-      }}
+    <SafeAreaView
+      style={[styles.testScreenView, { backgroundColor: colors.background }]}
     >
       <Text style={{ color: extraData.customTextColor }}>
         {extraData.customScreenText}
       </Text>
-      <Text style={{ color: extraData.customTextColor, fontSize: 24 }}>
+      <Text
+        style={[
+          styles.testScreenTextStyles,
+          { color: extraData.customTextColor },
+        ]}
+      >
         {count}
       </Text>
       <Button mode="contained" onPress={onClickHandler}>
         Add
       </Button>
-    </View>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  testScreenView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  testScreenTextStyles: {
+    fontSize: 24,
+  },
+});
 
 export default App;
