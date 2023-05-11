@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, useColorScheme } from 'react-native';
 import {
   DefaultTheme,
   DarkTheme,

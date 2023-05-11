@@ -6,9 +6,18 @@ interface AppButtonProps {
   title: string;
   onSubmitAction: () => void;
   disabled?: boolean;
+  customStyles?: {
+    styles?: {};
+    modalButton?: { highlighted?: string; normal?: string };
+  };
 }
 
-const AppButton = ({ title, onSubmitAction, disabled }: AppButtonProps) => {
+const AppButton = ({
+  title,
+  onSubmitAction,
+  disabled,
+  customStyles,
+}: AppButtonProps) => {
   const colors = useTheme().colors;
 
   return (
@@ -16,8 +25,12 @@ const AppButton = ({ title, onSubmitAction, disabled }: AppButtonProps) => {
       onPress={onSubmitAction}
       android_ripple={{ color: '#ff0000' }}
       style={({ pressed }) => [
-        styles.button,
-        { backgroundColor: pressed ? '#97fa00' : '#177e17' },
+        {
+          backgroundColor: pressed
+            ? customStyles?.modalButton?.highlighted
+            : customStyles?.modalButton?.normal,
+        },
+        customStyles?.styles ? customStyles.styles : styles.defaultButton,
       ]}
       disabled={disabled !== undefined ? !disabled : false}
     >
@@ -31,7 +44,7 @@ const styles = StyleSheet.create({
     margin: 15,
     fontSize: 15,
   },
-  button: {
+  defaultButton: {
     backgroundColor: '#177e17',
     width: 150,
     height: 50,
