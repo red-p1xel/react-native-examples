@@ -3,9 +3,7 @@ import {
   View,
   TextInput,
   Animated,
-  Modal,
   ImageBackground,
-  Pressable,
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
@@ -14,10 +12,11 @@ import { Button } from 'react-native-paper';
 import { useTheme } from '@react-navigation/native';
 import Image = Animated.Image;
 import AppButton from './src/components/ButtonComponent';
+import ErrorModal from './src/components/ModalComponent';
 
 const DetailsScreen = ({ navigation, route }): JSX.Element => {
   const defaultNameLengthConstraints = {
-    min: 5,
+    min: 2,
     max: 16,
   };
   const colors = useTheme().colors;
@@ -39,70 +38,25 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
 
   return (
     <SafeAreaView
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        justifyContent: 'space-between',
-        backgroundColor: colors.background,
-      }}
+      style={[styles.screen, { backgroundColor: colors.background }]}
     >
-      {/* @TODO: Move following model to `src/components/*` */}
-      <Modal
+      <ErrorModal
+        icon={require('./assets/warning_shield.png')}
+        text={'Name should be least 2 characters'}
+        buttonCaption={'FIX'}
         visible={showError}
-        transparent={true}
-        onRequestClose={() => setShowError(false)}
-        animationType={'slide'}
-        hardwareAccelerated={true}
-      >
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor: 'transparent',
-          }}
-        >
-          <View style={styles.topView}>
-            <View style={styles.errorModal}>
-              <View style={styles.modalIcon}>
-                <Image
-                  style={styles.imageIcon36}
-                  source={require('./assets/warning_shield.png')}
-                  resizeMode={'center'}
-                />
-              </View>
-              <View style={styles.modalText}>
-                <Text style={[{ color: colors.text }]}>
-                  Name should be least 5 characters
-                </Text>
-              </View>
-              {/* @TODO: Use `AppButton` component. Look at improve component */}
-              <Pressable
-                style={({ pressed }) => [
-                  styles.modalControls,
-                  { backgroundColor: pressed ? '#90fc5bff' : '#4ea822' },
-                ]}
-                onPress={() => setShowError(false)}
-              >
-                <Text style={[{ color: colors.text }, styles.text]}>FIX</Text>
-              </Pressable>
-            </View>
-          </View>
-        </SafeAreaView>
-      </Modal>
+        customStyles={{ color: useTheme().colors }}
+        onShow={setShowError}
+      />
       <Text style={{ color: colors.text }}>
         Details Screen has parameter `name` {route.params.name}
       </Text>
       <ImageBackground
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#2ea9a9',
-        }}
+        style={styles.screenBackground}
         source={require('./assets/bg.jpg')}
       >
         {isCorrectNameLength ? (
-          <View style={[{ alignItems: 'center', justifyContent: 'center' }]}>
+          <View style={styles.centeredView}>
             <Image
               style={styles.imageBig}
               source={require('./assets/shield.png')}
@@ -187,9 +141,21 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
 };
 
 const styles = StyleSheet.create({
-  text: {
-    margin: 12,
-    fontSize: 12,
+  screen: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+  },
+  screenBackground: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2ea9a9',
+  },
+  centeredView: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input: {
     borderWidth: 1,
@@ -199,51 +165,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
-  button: {
-    backgroundColor: '#177e17',
-    width: 150,
-    height: 50,
-    alignItems: 'center',
-  },
-  errorModal: {
-    height: 55,
-    borderWidth: 1,
-    borderColor: '#000',
-    flexDirection: 'row',
-  },
-  topView: {
-    flex: 1,
-    alignItems: 'flex-end',
-    backgroundColor: '#00000099',
-  },
-  modalIcon: {
-    width: 42,
-    backgroundColor: '#ff4156',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalText: {
-    flex: 1,
-    backgroundColor: '#ff4156',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalControls: {
-    flex: 0.2,
-    // backgroundColor: '#36910b',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderLeftWidth: 1,
-    borderColor: '#000',
-  },
   imageBig: {
     height: 128,
     width: 128,
     margin: 10,
-  },
-  imageIcon36: {
-    width: 36,
-    height: 36,
   },
 });
 
