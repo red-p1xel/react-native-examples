@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Pressable,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import React, { useState } from 'react';
 import { Button } from 'react-native-paper';
@@ -37,7 +38,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
   };
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         flexDirection: 'column',
@@ -54,32 +55,39 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         animationType={'slide'}
         hardwareAccelerated={true}
       >
-        <View style={styles.topView}>
-          <View style={styles.errorModal}>
-            <View style={styles.modalIcon}>
-              <Image
-                style={styles.imageIcon36}
-                source={require('./assets/warning_shield.png')}
-                resizeMode={'center'}
-              />
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+          }}
+        >
+          <View style={styles.topView}>
+            <View style={styles.errorModal}>
+              <View style={styles.modalIcon}>
+                <Image
+                  style={styles.imageIcon36}
+                  source={require('./assets/warning_shield.png')}
+                  resizeMode={'center'}
+                />
+              </View>
+              <View style={styles.modalText}>
+                <Text style={[{ color: colors.text }]}>
+                  Name should be least 5 characters
+                </Text>
+              </View>
+              {/* @TODO: Use `AppButton` component. Look at improve component */}
+              <Pressable
+                style={({ pressed }) => [
+                  styles.modalControls,
+                  { backgroundColor: pressed ? '#90fc5bff' : '#4ea822' },
+                ]}
+                onPress={() => setShowError(false)}
+              >
+                <Text style={[{ color: colors.text }, styles.text]}>FIX</Text>
+              </Pressable>
             </View>
-            <View style={styles.modalText}>
-              <Text style={[{ color: colors.text }]}>
-                Name should be least 5 characters
-              </Text>
-            </View>
-            {/* @TODO: Use `AppButton` component. Look at improve component */}
-            <Pressable
-              style={({ pressed }) => [
-                styles.modalControls,
-                { backgroundColor: pressed ? '#90fc5bff' : '#4ea822' },
-              ]}
-              onPress={() => setShowError(false)}
-            >
-              <Text style={[{ color: colors.text }, styles.text]}>FIX</Text>
-            </Pressable>
           </View>
-        </View>
+        </SafeAreaView>
       </Modal>
       <Text style={{ color: colors.text }}>
         Details Screen has parameter `name` {route.params.name}
@@ -93,7 +101,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         }}
         source={require('./assets/bg.jpg')}
       >
-        {submitted ? (
+        {isCorrectNameLength ? (
           <View style={[{ alignItems: 'center', justifyContent: 'center' }]}>
             <Image
               style={styles.imageBig}
@@ -148,6 +156,12 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
           editable={true}
           secureTextEntry={false}
           placeholderTextColor={useTheme().dark ? colors.text : '#d4d4d4'}
+          returnKeyType="done"
+          onSubmitEditing={() => {
+            !isCorrectNameLength
+              ? setShowError(true)
+              : setSubmitted(!submitted);
+          }}
         />
 
         <AppButton
@@ -168,7 +182,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
       >
         Go to test screen
       </Button>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -199,7 +213,6 @@ const styles = StyleSheet.create({
   },
   topView: {
     flex: 1,
-    justifyContent: 'flex-start',
     alignItems: 'flex-end',
     backgroundColor: '#00000099',
   },
@@ -230,6 +243,7 @@ const styles = StyleSheet.create({
   },
   imageIcon36: {
     width: 36,
+    height: 36,
   },
 });
 
