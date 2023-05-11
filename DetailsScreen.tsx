@@ -17,7 +17,7 @@ import AppButton from './src/components/ButtonComponent';
 const DetailsScreen = ({ navigation, route }): JSX.Element => {
   const defaultNameLengthConstraints = {
     min: 5,
-    max: 16
+    max: 16,
   };
   const colors = useTheme().colors;
   const [submitted, setSubmitted] = useState(false);
@@ -31,7 +31,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
 
   const validateInputLength = (
     textLength: number,
-    constraints: NameLengthConstraint
+    constraints: NameLengthConstraint,
   ): boolean => {
     return !(textLength >= constraints.max || textLength < constraints.min);
   };
@@ -43,7 +43,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         flexDirection: 'column',
         alignItems: 'stretch',
         justifyContent: 'space-between',
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
       }}
     >
       {/* @TODO: Move following model to `src/components/*` */}
@@ -72,7 +72,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
             <Pressable
               style={({ pressed }) => [
                 styles.modalControls,
-                { backgroundColor: pressed ? '#90fc5bff' : '#4ea822' }
+                { backgroundColor: pressed ? '#90fc5bff' : '#4ea822' },
               ]}
               onPress={() => setShowError(false)}
             >
@@ -112,7 +112,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         <TextInput
           style={[
             { backgroundColor: colors.background, color: colors.text },
-            styles.input
+            styles.input,
           ]}
           placeholder={'Your name'}
           /* *
@@ -140,7 +140,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
            * */
           onChangeText={(value) => {
             changeStatus(
-              validateInputLength(value.length, defaultNameLengthConstraints)
+              validateInputLength(value.length, defaultNameLengthConstraints),
             );
           }}
           keyboardType={'name-phone-pad'}
@@ -175,7 +175,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
 const styles = StyleSheet.create({
   text: {
     margin: 12,
-    fontSize: 12
+    fontSize: 12,
   },
   input: {
     borderWidth: 1,
@@ -183,37 +183,37 @@ const styles = StyleSheet.create({
     borderColor: '#555',
     borderRadius: 5,
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
   },
   button: {
     backgroundColor: '#177e17',
     width: 150,
     height: 50,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   errorModal: {
     height: 55,
     borderWidth: 1,
     borderColor: '#000',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   topView: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
-    backgroundColor: '#00000099'
+    backgroundColor: '#00000099',
   },
   modalIcon: {
     width: 42,
     backgroundColor: '#ff4156',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   modalText: {
     flex: 1,
     backgroundColor: '#ff4156',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   modalControls: {
     flex: 0.2,
@@ -221,16 +221,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderLeftWidth: 1,
-    borderColor: '#000'
+    borderColor: '#000',
   },
   imageBig: {
     height: 128,
     width: 128,
-    margin: 10
+    margin: 10,
   },
   imageIcon36: {
-    width: 36
-  }
+    width: 36,
+  },
 });
 
 export default DetailsScreen;
