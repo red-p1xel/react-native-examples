@@ -11,10 +11,17 @@ import React, { useState } from 'react';
 import { Button } from 'react-native-paper';
 import { useTheme } from '@react-navigation/native';
 import Image = Animated.Image;
-import AppButton from './src/components/ButtonComponent';
-import ErrorModal from './src/components/ModalComponent';
+import AppButton from '../components/ButtonComponent';
+import ErrorModal from '../components/ModalComponent';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 
-const DetailsScreen = ({ navigation, route }): JSX.Element => {
+type DetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;
+
+export const DetailsScreen: React.FC<DetailsScreenProps> = ({
+  navigation,
+  route,
+}): JSX.Element => {
   const defaultNameLengthConstraints = {
     min: 2,
     max: 16,
@@ -41,7 +48,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
       style={[styles.screen, { backgroundColor: colors.background }]}
     >
       <ErrorModal
-        icon={require('./assets/warning_shield.png')}
+        icon={require('../../assets/warning_shield.png')}
         text={'Name should be least 2 characters'}
         buttonCaption={'FIX'}
         visible={showError}
@@ -53,20 +60,20 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
       </Text>
       <ImageBackground
         style={styles.screenBackground}
-        source={require('./assets/bg.jpg')}
+        source={require('../../assets/bg.jpg')}
       >
         {isCorrectNameLength ? (
           <View style={styles.centeredView}>
             <Image
               style={styles.imageBig}
-              source={require('./assets/shield.png')}
+              source={require('../../assets/shield.png')}
               resizeMode={'stretch'}
             />
           </View>
         ) : (
           <Image
             style={styles.imageBig}
-            source={require('./assets/warning_shield.png')}
+            source={require('../../assets/warning_shield.png')}
             resizeMode={'stretch'}
           />
         )}
@@ -130,10 +137,7 @@ const DetailsScreen = ({ navigation, route }): JSX.Element => {
         />
       </ImageBackground>
 
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate('Test', { prop1: 'value1' })}
-      >
+      <Button mode="contained" onPress={() => navigation.navigate('Test', {})}>
         Go to test screen
       </Button>
     </SafeAreaView>
@@ -171,5 +175,3 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
-
-export default DetailsScreen;

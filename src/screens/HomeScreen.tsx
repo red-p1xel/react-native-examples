@@ -9,10 +9,15 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import React, { useState } from 'react';
-import { useTheme } from '@react-navigation/native';
 import FlatList = Animated.FlatList;
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 
-const HomeScreen = ({ navigation }): JSX.Element => {
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+export const HomeScreen: React.FC<HomeScreenProps> = ({
+  navigation,
+}): JSX.Element => {
   const [ItemsA, setItemsA] = useState([
     { name: 'A' },
     { name: 'B' },
@@ -39,7 +44,6 @@ const HomeScreen = ({ navigation }): JSX.Element => {
 
   return (
     <SafeAreaView style={styles.homeScreenMain}>
-      {/*<Text style={{ color: colors.text }}>Home Screen Text</Text>*/}
       <View style={styles.view1}>
         <FlatList
           numColumns={2}
@@ -70,11 +74,7 @@ const HomeScreen = ({ navigation }): JSX.Element => {
         <SectionList
           keyExtractor={(item, index) => index.toString()}
           sections={DataLI}
-          renderItem={({ item }) => (
-            // <View style={styles.item}>
-            <Text style={styles.margin10}>{item}</Text>
-            // </View>
-          )}
+          renderItem={({ item }) => <Text style={styles.margin10}>{item}</Text>}
           renderSectionHeader={({ section }) => (
             <View style={[styles.item, styles.sectionHeader]}>
               <Text style={styles.margin10}>{section.tile}</Text>
@@ -125,5 +125,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#4aa2c5',
   },
 });
-
-export default HomeScreen;
