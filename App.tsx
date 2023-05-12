@@ -6,13 +6,25 @@ import {
   useTheme,
   NavigationContainer,
 } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './HomeScreen';
-import DetailsScreen from './DetailsScreen';
+import { HomeScreen } from './src/screens/HomeScreen';
+import { DetailsScreen } from './src/screens/DetailsScreen';
 import { Button } from 'react-native-paper';
+import {
+  NativeStackScreenProps,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 
-const Stack = createStackNavigator();
 let totalCount: number = 0;
+
+export type RootStackParamList = {
+  Home: { prop1: string | object };
+  Details: { name: string };
+  Test: {
+    extraData?: object;
+  };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
   const theme = useColorScheme();
@@ -24,7 +36,7 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack.Navigator initialRouteName="HomeScreen">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -43,7 +55,9 @@ function App(): JSX.Element {
   );
 }
 
-const TestScreen = ({ extraData }) => {
+type TestScreenProps = NativeStackScreenProps<RootStackParamList, 'Test'>;
+
+const TestScreen: React.FC<TestScreenProps> = ({ extraData }) => {
   const colors = useTheme().colors;
   const [count, increaseCount] = useState(totalCount);
 
