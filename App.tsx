@@ -16,6 +16,7 @@ import {
 
 import { Settings } from './src/models/Settings';
 import { Context } from './src/models';
+import RealmPlugin from 'realm-flipper-plugin-device';
 
 export type RootStackParamList = {
   Home: { prop1: string | object };
@@ -83,24 +84,32 @@ const TestScreen: React.FC<TestScreenProps> = ({ extraData }) => {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.testScreenView, { backgroundColor: colors.background }]}
-    >
-      <Text style={{ color: extraData.customTextColor }}>
-        {extraData.customScreenText}
-      </Text>
-      <Text
-        style={[
-          styles.testScreenTextStyles,
-          { color: extraData.customTextColor },
-        ]}
-      >
-        {count}
-      </Text>
-      <Button mode="contained" onPress={onClickHandler}>
-        Add
-      </Button>
-    </SafeAreaView>
+    <>
+      <RealmPlugin realms={[realm]} />
+      <>
+        <SafeAreaView
+          style={[
+            styles.testScreenView,
+            { backgroundColor: colors.background },
+          ]}
+        >
+          <Text style={{ color: extraData.customTextColor }}>
+            {extraData.customScreenText}
+          </Text>
+          <Text
+            style={[
+              styles.testScreenTextStyles,
+              { color: extraData.customTextColor },
+            ]}
+          >
+            {count}
+          </Text>
+          <Button mode="contained" onPress={onClickHandler}>
+            Add
+          </Button>
+        </SafeAreaView>
+      </>
+    </>
   );
 };
 
